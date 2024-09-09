@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container mx-auto px-4">
+    <h1 class="text-3xl font-bold mb-6">{{ title.name }} - 回答一覧</h1>
+    <a href="{% url 'response_create' title.id %}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mb-4 inline-block">
+      新しい回答を作成
+    </a>
+    <div class="space-y-4">
+      {% for response in responses %}
+        <div class="bg-white shadow-md rounded-lg p-4">
+          <div class="flex justify-between items-center mb-2">
+            <span class="text-sm text-gray-600">作成日時: {{ response.created_at|date:"Y/m/d H:i" }}</span>
+            <div>
+              <a href="{% url 'response_update' response.id %}" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-3 rounded text-sm mr-2">
+                編集
+              </a>
+              <a href="{% url 'response_delete' response.id %}" class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded text-sm">
+                削除
+              </a>
+            </div>
+          </div>
+          <p class="text-gray-800">{{ response.content|linebreaksbr }}</p>
+        </div>
+      {% empty %}
+        <div class="bg-white shadow-md rounded-lg p-4 text-center text-gray-500">
+          回答がありません。
+        </div>
+      {% endfor %}
+    </div>
+    <a href="{% url 'title_list' title.category.id %}" class="mt-6 inline-block bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+      タイトル一覧に戻る
+    </a>
+  </div>
+{% endblock %}

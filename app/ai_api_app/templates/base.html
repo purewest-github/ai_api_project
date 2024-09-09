@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}AI API App{% endblock %}</title>
+    <link href="{% static 'css/output.css' %}" rel="stylesheet">
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+    <nav class="bg-blue-600 text-white p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="{% url 'home' %}" class="text-2xl font-bold">AI API App</a>
+            <div>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'user_profile' %}" class="mr-4 hover:underline">{{ user.username }}</a>
+                    <a href="{% url 'logout' %}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">ログアウト</a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">ログイン</a>
+                    <a href="{% url 'signup' %}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">登録</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+    
+    <main class="container mx-auto mt-8 px-4 flex-grow">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="bg-gray-200 text-center p-4 mt-8">
+        <p>&copy; 2024 AI API App. All rights reserved.</p>
+    </footer>
+</body>
+</html>

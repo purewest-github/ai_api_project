@@ -28,6 +28,20 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    environment:
+      - DJANGO_DEBUG=True
+      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1] 0.0.0.0
+
+  tailwind:
+    container_name: Tailwind
+    build:
+      context: .
+      dockerfile: docker/app/Dockerfile.dev
+    volumes:
+      - ./app:/app
+    command: npm run watch
+    depends_on:
+      - app
 
   phpmyadmin:
     container_name: phpMyAdmin

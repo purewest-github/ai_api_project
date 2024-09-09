@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1 class="text-3xl font-bold mb-6">カテゴリ一覧</h1>
+  <a href="{% url 'category_create' %}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mb-4 inline-block">新しいカテゴリを作成</a>
+  <ul class="space-y-4">
+    {% for category in categories %}
+      <li class="bg-white shadow-md rounded-lg p-4 flex justify-between items-center">
+        <span class="text-xl">{{ category.name }}</span>
+        <div>
+          <a href="{% url 'title_list' category.id %}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">タイトル一覧</a>
+          <a href="{% url 'category_update' category.id %}" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded mr-2">編集</a>
+          <a href="{% url 'category_delete' category.id %}" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">削除</a>
+        </div>
+      </li>
+    {% empty %}
+      <li class="bg-white shadow-md rounded-lg p-4 text-center text-gray-500">カテゴリがありません。</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

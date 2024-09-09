@@ -5,3 +5,7 @@ sqlparse==0.5.1
 uWSGI==2.0.26
 django-cors-headers==4.3.0
 statsd==4.0.1
+django-debug-toolbar==4.2.0
+requests==2.31.0
+openai==0.27.8
+tenacity==8.2.3

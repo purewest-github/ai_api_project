@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-3xl font-bold mb-6">回答詳細</h1>
+  <div class="bg-white shadow-md rounded-lg p-6 mb-6">
+    <h2 class="text-xl font-semibold mb-4">質問</h2>
+    <p class="mb-4">{{ response.question }}</p>
+    
+    <h2 class="text-xl font-semibold mb-4">Claudeの回答</h2>
+    <div class="bg-gray-100 p-4 rounded-lg mb-4">
+      {{ response.claude_response|linebreaks }}
+    </div>
+    
+    <h2 class="text-xl font-semibold mb-4">ChatGPTの回答</h2>
+    <div class="bg-gray-100 p-4 rounded-lg mb-4">
+      {{ response.chatgpt_response|linebreaks }}
+    </div>
+    
+    <h2 class="text-xl font-semibold mb-4">最終回答</h2>
+    <div class="bg-gray-100 p-4 rounded-lg">
+      {{ response.final_response|linebreaks }}
+    </div>
+  </div>
+  
+  <div class="flex justify-between">
+    <a href="{% url 'response_list' response.title.id %}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+      回答一覧に戻る
+    </a>
+    <a href="{% url 'response_update' response.id %}" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">
+      編集
+    </a>
+  </div>
+</div>
+{% endblock %}
