@@ -1,0 +1,69 @@
+version: '3.9'
+
+services:
+  db:
+    container_name: MySQL
+    build:
+      context: .
+      dockerfile: docker/mysql/Dockerfile
+    volumes:
+      - mysql_data:/var/lib/mysql
+    env_file: .env.prod
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u$$MYSQL_USER", "-p$$MYSQL_PASSWORD"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - backend
+
+  app:
+    container_name: Django
+    build:
+      context: .
+      dockerfile: docker/app/Dockerfile.prod
+    volumes:
+      - static_volume:/app/static
+    env_file: .env.prod
+    depends_on:
+      db:
+        condition: service_healthy
+      statsd:
+        condition: service_started
+    networks:
+      - backend
+      - frontend
+
+  nginx:
+    container_name: Nginx
+    build:
+      context: .
+      dockerfile: docker/nginx/Dockerfile
+    volumes:
+      - static_volume:/app/static
+    ports:
+      - "80:80"
+    depends_on:
+      - app
+    networks:
+      - frontend
+
+  statsd:
+    container_name: StatsD
+    image: graphiteapp/graphite-statsd
+    ports:
+      - "8125:8125/udp"
+      - "8080:80"  # Changed from 80:80 to avoid conflict with Nginx
+    volumes:
+      - graphite_data:/opt/graphite/storage
+    networks:
+      - backend
+
+volumes:
+  mysql_data:
+  static_volume:
+  graphite_data:
+
+networks:
+  backend:
+  frontend:
