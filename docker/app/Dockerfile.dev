@@ -5,19 +5,22 @@ ENV PYTHONUNBUFFERED=1
 
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y \
+# Node.js 18.x をインストール
+RUN apt update && apt install -y \
     gcc \
     default-libmysqlclient-dev \
     pkg-config \
-    nodejs \
-    npm \
-    && apt-get clean \
+    curl \
+    && curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
+    && apt install -y nodejs \
+    && npm install -g npm@latest \
+    && apt clean \
     && rm -rf /var/lib/apt/lists/*
 
 COPY app/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY app/package.json app/package-lock.json ./
+COPY app/package.json app/package-lock.json* ./
 RUN npm install
 
 COPY app .
