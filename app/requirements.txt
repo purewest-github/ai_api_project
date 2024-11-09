@@ -1,7 +1,7 @@
-asgiref==3.8.1
 Django==4.2.7
+asgiref==3.7.2
+sqlparse==0.4.4
 mysqlclient==2.2.4
-sqlparse==0.5.1
 uWSGI==2.0.26
 django-cors-headers==4.3.0
 statsd==4.0.1
@@ -9,3 +9,5 @@ django-debug-toolbar==4.2.0
 requests==2.31.0
 openai==0.27.8
 tenacity==8.2.3
+django-widget-tweaks==1.4.12
+setuptools==68.2.2

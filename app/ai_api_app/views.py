@@ -40,12 +40,21 @@ class CustomLoginView(LoginView):
     """カスタムログインビュー"""
     form_class = CustomAuthenticationForm
     template_name = 'login.html'
-
+    
     def form_valid(self, form):
         """フォームが有効な場合の処理"""
         response = super().form_valid(form)
         logger.info(f"ユーザーがログインしました: {self.request.user.username}")
         return response
+
+    def get_success_url(self):
+        """ログイン成功時のリダイレクト先"""
+        return reverse_lazy('category_list')
+
+    def form_invalid(self, form):
+        """フォームが無効な場合の処理"""
+        logger.warning(f"ログイン失敗: {form.errors}")
+        return super().form_invalid(form)
 
 @login_required
 def user_profile(request):

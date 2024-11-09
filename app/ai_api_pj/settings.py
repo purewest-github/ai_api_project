@@ -24,6 +24,7 @@ INSTALLED_APPS = [
     'ai_api_app',
     'django.contrib.humanize',
     'debug_toolbar',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
@@ -94,9 +95,17 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_DIRS = [
-    BASE_DIR / 'static',
+# STATICFILES_DIRS = [
+#     BASE_DIR / 'ai_api_app' / 'static',
+# ]
+
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
+
+if not DEBUG:
+    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
@@ -111,13 +120,12 @@ LOGOUT_REDIRECT_URL = 'login'
 # Login URL for @login_required decorator
 LOGIN_URL = 'login'
 
-# Logging configuration
+# ログディレクトリの設定
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'handlers': {
         'file': {
-            'level': 'DEBUG',
             'class': 'logging.FileHandler',
             'filename': '/var/log/django/debug.log',
         },
@@ -131,7 +139,7 @@ LOGGING = {
     },
 }
 
-# Django Debug Toolbar設定
+# Django Debug Toolbar settings
 INTERNAL_IPS = [
     '127.0.0.1',
 ]

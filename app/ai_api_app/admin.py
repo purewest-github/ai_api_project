@@ -1,9 +1,12 @@
 from django.contrib import admin
-from .models import UserAPIKeys, Category, Title, Response
+from django.contrib.auth import get_user_model
+from .models import Category, Title, Response
 
-@admin.register(UserAPIKeys)
-class UserAPIKeysAdmin(admin.ModelAdmin):
-    list_display = ('user', 'has_claude_key', 'has_chatgpt_key')
+User = get_user_model()
+
+@admin.register(User)
+class CustomUserAdmin(admin.ModelAdmin):
+    list_display = ('username', 'email', 'has_claude_key', 'has_chatgpt_key')
     
     def has_claude_key(self, obj):
         return bool(obj.claude_api_key)
@@ -55,7 +58,7 @@ class TitleAdmin(admin.ModelAdmin):
 class ResponseAdmin(admin.ModelAdmin):
     list_display = ('title', 'user', 'created_at', 'updated_at')
     list_filter = ('title', 'user')
-    search_fields = ('content', 'title__name', 'user__username')
+    search_fields = ('question', 'claude_response', 'chatgpt_response', 'final_response', 'title__name', 'user__username')
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)

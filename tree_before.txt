@@ -1,0 +1,69 @@
+.
+├── README.md
+├── app
+│   ├── ai_api_app
+│   │   ├── __init__.py
+│   │   ├── admin.py
+│   │   ├── apps.py
+│   │   ├── forms.py
+│   │   ├── management
+│   │   │   └── commands
+│   │   │       └── wait_for_db.py
+│   │   ├── models.py
+│   │   ├── static
+│   │   │   └── ai_api_app
+│   │   │       ├── css
+│   │   │       │   └── output.css
+│   │   │       ├── images
+│   │   │       │   └── logo.png
+│   │   │       ├── js
+│   │   │       │   └── form_styling.js
+│   │   │       └── src
+│   │   │           └── input.css
+│   │   ├── templates
+│   │   │   ├── base.html
+│   │   │   ├── category_form.html
+│   │   │   ├── category_list.html
+│   │   │   ├── login.html
+│   │   │   ├── pi_keys_settings.html
+│   │   │   ├── response_detail.html
+│   │   │   ├── response_list.html
+│   │   │   ├── signup.html
+│   │   │   ├── title_list.html
+│   │   │   └── user_profile.html
+│   │   ├── templatetags
+│   │   │   ├── __init__.py
+│   │   │   └── custom_filters.py
+│   │   ├── tests.py
+│   │   ├── urls.py
+│   │   └── views.py
+│   ├── ai_api_pj
+│   │   ├── __init__.py
+│   │   ├── asgi.py
+│   │   ├── settings.py
+│   │   ├── urls.py
+│   │   └── wsgi.py
+│   ├── django_debug.log
+│   ├── manage.py
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── requirements.txt
+│   └── tailwind.config.js
+├── docker
+│   ├── app
+│   │   ├── Dockerfile.dev
+│   │   ├── Dockerfile.prod
+│   │   └── uwsgi.ini
+│   ├── mysql
+│   │   ├── Dockerfile
+│   │   ├── init.sql
+│   │   └── my.cnf
+│   └── nginx
+│       ├── Dockerfile
+│       ├── nginx.conf
+│       └── static
+├── docker-compose.dev.yml
+├── docker-compose.prod.yml
+└── tree_before.txt
+
+19 directories, 48 files

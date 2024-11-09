@@ -5,26 +5,38 @@ ENV PYTHONUNBUFFERED=1
 
 WORKDIR /app
 
-# Node.js 18.x をインストール
+# Node.js 18.x とnpm、Tailwind CLIをインストール
 RUN apt update && apt install -y \
     gcc \
     default-libmysqlclient-dev \
     pkg-config \
     curl \
+    netcat \
+    default-mysql-client \
     && curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
     && apt install -y nodejs \
     && npm install -g npm@latest \
+    && npm install -g tailwindcss \
     && apt clean \
     && rm -rf /var/lib/apt/lists/*
 
-COPY app/requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# ログディレクトリの設定
+RUN mkdir -p /var/log/django && \
+    chmod 777 /var/log/django
 
-COPY app/package.json app/package-lock.json* ./
-RUN npm install
-
+# 全てのファイルをコピー
 COPY app .
 
-RUN npm run build
+# Python依存関係のインストール
+RUN pip install --no-cache-dir -r requirements.txt
 
+# Node.js依存関係のインストールとTailwindのビルド
+RUN npm ci && npm run build:css
+
+# 開発サーバー起動用のスクリプトをコピー
+COPY docker/app/entrypoint.dev.sh /entrypoint.dev.sh
+RUN chmod +x /entrypoint.dev.sh
+
+# エントリーポイントとコマンドを設定
+ENTRYPOINT ["/entrypoint.dev.sh"]
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

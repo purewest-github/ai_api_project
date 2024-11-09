@@ -1,5 +1,3 @@
-version: '3.9'
-
 services:
   db:
     container_name: MySQL
@@ -22,26 +20,15 @@ services:
       dockerfile: docker/app/Dockerfile.dev
     volumes:
       - ./app:/app
+      - log_volume:/var/log/django
     env_file: .env.dev
     ports:
       - "8000:8000"
     depends_on:
       db:
         condition: service_healthy
-    environment:
-      - DJANGO_DEBUG=True
-      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1] 0.0.0.0
-
-  tailwind:
-    container_name: Tailwind
-    build:
-      context: .
-      dockerfile: docker/app/Dockerfile.dev
-    volumes:
-      - ./app:/app
-    command: npm run watch
-    depends_on:
-      - app
+    tty: true
+    stdin_open: true
 
   phpmyadmin:
     container_name: phpMyAdmin
@@ -54,3 +41,4 @@ services:
 
 volumes:
   mysql_data:
+  log_volume:

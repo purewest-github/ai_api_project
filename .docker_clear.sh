@@ -17,3 +17,9 @@ docker-compose -f docker-compose.dev.yml down --rmi all --volumes --remove-orpha
 # Dockerのシステムなどを削除
 # docker system prune
 docker system prune -a
+
+rm -rf app/staticfiles
+rm -rf app/logs
+rm -rf app/static
+rm -rf app/ai_api_app/migrations
+

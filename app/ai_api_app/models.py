@@ -1,19 +1,42 @@
+# models.py
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.hashers import make_password
+from django.core.validators import RegexValidator
 
 class CustomUser(AbstractUser):
     """カスタムユーザーモデル"""
+    username = models.CharField(
+        max_length=150,
+        unique=True,
+        validators=[
+            RegexValidator(
+                regex=r'^[\w.@+-]+$',
+                message='ユーザー名には半角英数字、@/./+/-/_ のみ使用できます。',
+            ),
+        ],
+        error_messages={
+            'unique': "このユーザー名は既に使用されています。",
+        }
+    )
+    email = models.EmailField(
+        unique=True,
+        error_messages={
+            'unique': "このメールアドレスは既に登録されています。",
+        }
+    )
     claude_api_key = models.CharField(max_length=255, blank=True, null=True)
     chatgpt_api_key = models.CharField(max_length=255, blank=True, null=True)
 
     def set_claude_api_key(self, raw_key):
         """Claude APIキーを暗号化して保存"""
-        self.claude_api_key = make_password(raw_key)
+        if raw_key:
+            self.claude_api_key = make_password(raw_key)
 
     def set_chatgpt_api_key(self, raw_key):
         """ChatGPT APIキーを暗号化して保存"""
-        self.chatgpt_api_key = make_password(raw_key)
+        if raw_key:
+            self.chatgpt_api_key = make_password(raw_key)
 
 class Category(models.Model):
     """カテゴリモデル"""
@@ -44,9 +67,9 @@ class Response(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     title = models.ForeignKey(Title, on_delete=models.CASCADE)
     question = models.TextField()
-    claude_response = models.TextField()
-    chatgpt_response = models.TextField()
-    final_response = models.TextField()
+    claude_response = models.TextField(blank=True)
+    chatgpt_response = models.TextField(blank=True)
+    final_response = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

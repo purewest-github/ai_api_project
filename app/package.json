@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "build": "tailwindcss -i ./static/src/input.css -o ./static/css/output.css --minify",
-    "watch": "tailwindcss -i ./static/src/input.css -o ./static/css/output.css --watch"
+    "build": "tailwindcss -i ./ai_api_app/static/ai_api_app/src/input.css -o ./ai_api_app/static/ai_api_app/css/output.css --minify",
+    "watch": "tailwindcss -i ./ai_api_app/static/ai_api_app/src/input.css -o ./ai_api_app/static/ai_api_app/css/output.css --watch",
+    "build:css": "tailwindcss -i ./ai_api_app/static/ai_api_app/src/input.css -o ./ai_api_app/static/ai_api_app/css/output.css --minify"
   },
   "keywords": [],
   "author": "",
